@@ -14,6 +14,8 @@ from langchain_ocr_lib.di_binding_keys.binding_keys import (
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain_together import ChatTogether
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_anthropic import ChatAnthropic
 from langfuse import Langfuse
 from functools import partial
 
@@ -22,6 +24,8 @@ from langchain_ocr_lib.impl.settings.ollama_chat_settings import OllamaSettings
 from langchain_ocr_lib.impl.settings.together_ai_chat_settings import TogetherAISettings
 from langchain_ocr_lib.impl.settings.vllm_chat_settings import VllmSettings
 from langchain_ocr_lib.impl.settings.openai_chat_settings import OpenAISettings
+from langchain_ocr_lib.impl.settings.google_chat_settings import GoogleSettings
+from langchain_ocr_lib.impl.settings.anthropic_chat_settings import AnthropicSettings
 from langchain_ocr_lib.impl.settings.llm_class_type_settings import LlmClassTypeSettings
 from langchain_ocr_lib.impl.settings.langfuse_settings import LangfuseSettings
 from langchain_ocr_lib.impl.settings.language_settings import LanguageSettings
@@ -67,6 +71,14 @@ def lib_di_config(binder: Binder):
         settings = TogetherAISettings()
         model_name = settings.model_name
         partial_llm_provider = partial(llm_provider, settings, ChatTogether)
+    elif llm_class_type_settings.llm_type == "google":
+        settings = GoogleSettings()
+        model_name = settings.model_name
+        partial_llm_provider = partial(llm_provider, settings, ChatGoogleGenerativeAI)
+    elif llm_class_type_settings.llm_type == "anthropic":
+        settings = AnthropicSettings()
+        model_name = settings.model_name
+        partial_llm_provider = partial(llm_provider, settings, ChatAnthropic)
     else:
         raise NotImplementedError("Configured LLM is not implemented")
 

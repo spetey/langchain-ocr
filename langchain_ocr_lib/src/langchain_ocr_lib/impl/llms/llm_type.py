@@ -11,3 +11,5 @@ class LLMType(StrEnum):
     OPENAI = "openai"
     VLLM = "vllm"
     TOGETHERAI = "togetherai"
+    GOOGLE = "google"
+    ANTHROPIC = "anthropic"
